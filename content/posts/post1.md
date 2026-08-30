@@ -9,4 +9,5 @@ series: "My Series"        # Group posts into a navigable series
 searchHidden: true         # Exclude from search index (default: false)
 hidden: true               # Exclude from llms.txt (default: false)
 cover: "/images/cover1-1.png" # Open Graph / Twitter Card image
+entry-cover: "/images/cover1-1.png" # Include image in the list of article 
 ---
