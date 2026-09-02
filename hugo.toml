@@ -13,7 +13,7 @@ theme = "hugo-ink"
   favicon = "/favicon.ico"            # Place in static/
   recentPostsCount = 3                # Posts shown on homepage (default: 3)
   askAI = []
-  customcss = ["css/custom.css"]
+
 
 
 
