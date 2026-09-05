@@ -18,6 +18,8 @@
     src: url("../fonts/glacial-indifference/GlacialIndifference-Bold.woff2") format("woff2");
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&display=swap');
+
 /* --- Custom Properties -------------------------------------------------- */
 :root {
     --bg: #fafaf9;
@@ -323,6 +325,7 @@ hr {
         0 0 0 5px var(--accent);
 }
 .hero-name {
+    font-family: "Libre Baskerville";
     font-size: 2.5rem;
     margin-bottom: 0.4rem;
     line-height: 1.15;
