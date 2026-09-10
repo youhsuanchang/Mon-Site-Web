@@ -30,28 +30,33 @@
     <h2>{{ i18n "recent" | default "Recent" }}</h2>
     <a href="{{ "posts/" | relURL }}" class="view-all">{{ i18n "view_all" | default "View all" }} &rarr;</a>
   </div>
-  <ul class="post-list">
-    {{- range . }}
-    <li class="post-entry">
-      <a href="{{ .Permalink }}" class="post-entry-link">
-
+ <!-- Post entries container -->
+<ul class="post-list">
+  {{- range . }}
+  <li class="post-entry">
+    <a href="{{ .Permalink }}" class="post-card">
       {{ with .Params.cover }}
-        <div class="entry-cover">
-          <a href="{{ $.RelPermalink }}">
-            <img src="{{ . | absURL }}" alt="{{ $.Title }}" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 15px; object-fit: cover;">
-          </a>
-        </div>
+      <!-- Post thumbnail -->
+      <div class="card-cover-wrap">
+        <img src="{{ . | absURL }}" alt="{{ $.Title }}" class="card-cover-img" />
+      </div>
       {{ end }}
-        
+
+      <!-- Typography details -->
+      <div class="card-info">
         <h3 class="post-entry-title">{{ .Title }}</h3>
-        {{ partial "post_meta.html" . }}
+        <div class="post-entry-meta">
+          {{ .Date.Format "January 2, 2006" }} &middot; {{ math.Max 1 .ReadingTime }} min read
+        </div>
         {{- with .Description | default .Summary }}
-        <p class="post-entry-summary">{{ . | plainify | truncate 160 }}</p>
+        <p class="post-entry-summary">{{ . | plainify | truncate 130 }}</p>
         {{- end }}
-      </a>
-    </li>
-    {{- end }}
-  </ul>
+      </div>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+    
 </section>
 {{- end }}
 
