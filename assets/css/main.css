@@ -770,6 +770,148 @@ li.post-entry {
     font-size: 0.78rem;
 }
 
+/* --- About Me --------------------------------------------------------------- */
+
+/* 1. Force hugo-ink container to expand so 3 columns have breathing room */
+.wrapper, 
+main, 
+.content, 
+article, 
+.post {
+  max-width: 1140px !important;
+  width: 100% !important;
+}
+
+/* 2. Grid Container with wide horizontal gap */
+.about-editorial-grid {
+  display: grid;
+  grid-template-columns: 220px 1.4fr 1.35fr;
+  column-gap: 4.5rem; /* Wide gap between columns matching target */
+  max-width: 1100px;
+  margin: 3.5rem auto 6rem auto;
+  align-items: start;
+}
+
+/* 3. Left Column: Image & Bio */
+.about-col-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-photo-wrap {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #eaeaea;
+}
+
+.about-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  display: block;
+}
+
+.about-caption {
+  margin-top: 1.25rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #3f3f46;
+}
+
+/* 4. Middle Column: Research (Top) & Toolkit (Far Bottom) */
+.about-col-mid {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Push Toolkit down to create the large empty space */
+.about-col-mid .toolkit-section {
+  margin-top: 7.5rem; /* Creates the large gap seen in target */
+}
+
+/* 5. Right Column: About Me (Top) & Creative Practice (Shifted Down) */
+.about-col-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-hero-title {
+  font-family: Georgia, Charter, "Times New Roman", serif;
+  font-size: 3.2rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #18181b;
+  margin: 0;
+}
+
+/* Push Creative Practice down below About Me */
+.about-col-right .creative-section {
+  margin-top: 6.5rem; /* Creates the staggered mid-height placement */
+}
+
+/* 6. Typography & Text Rhythm */
+.about-subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #18181b;
+  margin: 0 0 0.6rem 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap; /* Prevents heading from wrapping awkwardly */
+}
+
+.about-desc {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: #52525b;
+  margin: 0 0 0.8rem 0;
+}
+
+/* 7. Toolkit List Styling */
+.toolkit-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0.4rem 0 0 0 !important;
+}
+
+.toolkit-list li {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: #52525b;
+}
+
+.toolkit-list li span {
+  color: #18181b;
+  font-weight: 600;
+}
+
+/* 8. Mobile Responsiveness */
+@media (max-width: 900px) {
+  .about-editorial-grid {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .about-hero-title {
+    order: -1;
+    font-size: 2.4rem;
+  }
+
+  .about-col-mid .toolkit-section,
+  .about-col-right .creative-section {
+    margin-top: 0; /* Reset vertical gap on mobile screens */
+  }
+
+  .about-photo-wrap {
+    max-width: 240px;
+  }
+}
+
 /* --- Tags --------------------------------------------------------------- */
 .post-tags {
     display: flex;

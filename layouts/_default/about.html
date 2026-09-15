@@ -1,0 +1,49 @@
+{{ define "main" }}
+<div class="about-editorial-grid">
+  <!-- Left Column: Portrait & Caption -->
+  <div class="about-col-left">
+    <div class="about-photo-wrap">
+      <img src="{{ "images/avatar.jpg" | relURL }}" alt="You Hsuan Chang" class="about-photo" />
+    </div>
+    <div class="about-caption">
+      <p>I'm You Hsuan (右宣) you can call me Abi.<br>Based in Taiwan, Now located in Paris.</p>
+    </div>
+  </div>
+
+  <!-- Middle Column: Research & Toolkit -->
+  <div class="about-col-mid">
+    <section class="about-section">
+      <h3 class="about-subtitle">Research & Technical Focus</h3>
+      <p class="about-desc">
+        My focus centers on the responsible integration of artificial intelligence within mental health care. I explore how computational tools can broaden support while remaining safe and transparent. Beyond technical design, I am interested in practical governance frameworks and promoting AI literacy.
+      </p>
+    </section>
+
+    <section class="about-section toolkit-section">
+      <h3 class="about-subtitle">Toolkit:</h3>
+      <ul class="toolkit-list">
+        <li><span>- Analysis:</span> Python, Pandas, NumPy</li>
+        <li><span>- Documentation & Reporting:</span> LaTeX, Git/GitHub</li>
+        <li><span>- Communication & Web:</span> HTML, CSS, Hugo</li>
+        <li><span>- Natural Languages:</span> Mandarin (Native), English (C1), French (B2), Japanese, German</li>
+        <li><span>- Creative:</span> Adobe AI, PS, Procreate</li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Right Column: Hero Title & Creative Practice -->
+  <div class="about-col-right">
+    <h1 class="about-hero-title">About Me</h1>
+
+    <section class="about-section creative-section">
+      <h3 class="about-subtitle">Beyond the Data: Creative Practice & Sensory Balance</h3>
+      <p class="about-desc">
+        Alongside computational work, my time is rooted in art, working across painting, ceramics, and photography.
+      </p>
+      <p class="about-desc">
+        For me, creative practices allow me to have personal cultivation and care. It is through these hands-on media that I feel more connected with the world.
+      </p>
+    </section>
+  </div>
+</div>
+{{ end }}
