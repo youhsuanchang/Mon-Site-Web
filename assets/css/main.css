@@ -704,113 +704,7 @@ li.post-entry {
     padding: 1rem 1.25rem;
     margin-bottom: 2rem;
     font-size: 0.9rem;
-    transition: border-color 0.3s ease;
-}
-.series-label {
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-}
-.series-nav ol {
-    padding-left: 1.25rem;
-    margin: 0;
-}
-.series-nav li {
-    margin: 0.3rem 0;
-}
-.series-nav li a {
-    color: var(--text-secondary);
-}
-.series-nav li a:hover {
-    color: var(--link);
-}
-.series-nav li.current {
-    color: var(--text);
-    font-weight: 700;
-}
-
-/* --- Related Posts ------------------------------------------------------- */
-.related-posts {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-}
-.related-posts h2 {
-    font-size: 1.1rem;
-    margin-top: 0;
-    margin-bottom: 1rem;
-}
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-.related-entry {
-    display: block;
-    padding: 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    text-decoration: none;
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
-}
-.related-entry:hover {
-    background-color: var(--hover-bg);
-    border-color: var(--text-secondary);
-    text-decoration: none;
-}
-.related-entry h3 {
-    font-size: 0.9rem;
-    margin: 0 0 0.25rem;
-    line-height: 1.4;
-    color: var(--text);
-}
-.related-entry .post-meta {
-    font-size: 0.78rem;
-}
-
-/* --- About Me --------------------------------------------------------------- */
-
-/* 1. Force hugo-ink container to expand so 3 columns have breathing room */
-.wrapper, 
-main, 
-.content, 
-article, 
-.post {
-  max-width: 1140px !important;
-  width: 100% !important;
-}
-
-/* 2. Grid Container with wide horizontal gap */
-.about-editorial-grid {
-  display: grid;
-  grid-template-columns: 220px 1.4fr 1.35fr;
-  column-gap: 4.5rem; /* Wide gap between columns matching target */
-  max-width: 1100px;
-  margin: 3.5rem auto 6rem auto;
-  align-items: start;
-}
-
-/* 3. Left Column: Image & Bio */
-.about-col-left {
-  display: flex;
-  flex-direction: column;
-}
-
-.about-photo-wrap {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background-color: #eaeaea;
-}
-
-.about-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(100%);
-  display: block;
+    trdisplay: block;
 }
 
 .about-caption {
@@ -910,7 +804,236 @@ article,
   .about-photo-wrap {
     max-width: 240px;
   }
+}ansition: border-color 0.3s ease;
 }
+.series-label {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+.series-nav ol {
+    padding-left: 1.25rem;
+    margin: 0;
+}
+.series-nav li {
+    margin: 0.3rem 0;
+}
+.series-nav li a {
+    color: var(--text-secondary);
+}
+.series-nav li a:hover {
+    color: var(--link);
+}
+.series-nav li.current {
+    color: var(--text);
+    font-weight: 700;
+}
+
+/* --- Related Posts ------------------------------------------------------- */
+.related-posts {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+}
+.related-posts h2 {
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.related-entry {
+    display: block;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+.related-entry:hover {
+    background-color: var(--hover-bg);
+    border-color: var(--text-secondary);
+    text-decoration: none;
+}
+.related-entry h3 {
+    font-size: 0.9rem;
+    margin: 0 0 0.25rem;
+    line-height: 1.4;
+    color: var(--text);
+}
+.related-entry .post-meta {
+    font-size: 0.78rem;
+}
+
+/* --- About Me --------------------------------------------------------------- */
+
+/* ===================================================
+   Two-Screen Scroll Layout
+   =================================================== */
+
+/* 1. 放寬 hugo-ink 限制，確保第二屏有開闊的雙欄空間 */
+.wrapper, 
+main, 
+.content, 
+article {
+  max-width: 1140px !important;
+  width: 100% !important;
+}
+
+.about-container {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+/* 2. 第一屏：滿版置中（Hero Viewport） */
+.about-screen-hero {
+  min-height: calc(88vh - 70px); /* 佔滿第一屏可視高度 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem 4rem 1rem;
+}
+
+.about-hero-title {
+  font-family: Georgia, Charter, "Times New Roman", serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  color: #18181b;
+  margin: 0 0 2.8rem 0;
+  letter-spacing: -0.01em;
+}
+
+.about-hero-photo-wrap {
+  width: 250px;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #f1f5f9;
+  margin-bottom: 1.25rem;
+}
+
+.about-hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-hero-caption {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #52525b;
+  margin: 0;
+}
+
+/* 3. 第二屏：滑下來看到的雙欄錯位佈局 */
+.about-screen-content {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr; /* 左欄稍微比右欄窄 */
+  column-gap: 6rem;
+  padding: 4rem 1rem 10rem 1rem;
+  align-items: start;
+}
+
+/* 左欄：Research 在上方，Toolkit 透過 margin-top 推到下方 */
+.about-col-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolkit-block {
+  margin-top: 8rem; /* 製造出 Research 與 Toolkit 之間的留白 */
+}
+
+/* 右欄：讓 Creative Practice 向下錯位，對齊畫面中間 */
+.about-col-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.creative-block {
+  margin-top: 11rem; /* 向下推移，形成錯落節奏感 */
+}
+
+/* 4. 文字與清單樣式 */
+.about-subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #18181b;
+  margin: 0 0 0.65rem 0;
+  letter-spacing: -0.01em;
+}
+
+.about-desc {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #52525b;
+  margin: 0 0 0.85rem 0;
+}
+
+.about-toolkit-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0.5rem 0 0 0 !important;
+}
+
+.about-toolkit-list li {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: #52525b;
+}
+
+.about-toolkit-list li span {
+  color: #18181b;
+  font-weight: 600;
+}
+
+/* 左欄：把 Toolkit 往下推開 */
+.toolkit-block {
+  margin-top: 13rem; /* 依喜好設定，數值越大，在電腦上離上方就越遠 */
+}
+
+/* 右欄：Beyond the Data 的垂直位置 */
+.creative-block {
+  margin-top: 12rem;
+}
+
+/* 5. 手機版響應式適配 */
+@media (max-width: 860px) {
+  .about-screen-hero {
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
+
+  .about-hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-screen-content {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 3rem;
+    padding: 2rem 1rem 5rem 1rem;
+  }
+
+  .toolkit-block,
+  .creative-block {
+    margin-top: 0;
+  }
+  
+}
+  
 
 /* --- Tags --------------------------------------------------------------- */
 .post-tags {
