@@ -11,13 +11,13 @@
   {{- with site.Params.homeBio }}
   <p class="hero-bio">{{ . | markdownify }}</p>
   {{- end }}
-  {{- with site.Params.socialLinks }}
+
+  <!-- 純 HTML 社群連結清單 -->
   <nav class="hero-links" aria-label="Social links">
-    {{- range . }}
-    <a href="{{ .url }}" {{ if .external }}target="_blank" rel="noopener noreferrer"{{ end }} title="{{ .name }}">{{ .name }}</a>
-    {{- end }}
+    <a href="https://github.com/youhsuanchang" target="_blank" rel="noopener noreferrer" title="GitHub">GitHub</a>
+    <a href="https://www.linkedin.com/in/abby-cyh/" target="_blank" rel="noopener noreferrer" title="LinkedIn">LinkedIn</a>
+    <a href="mailto:obby0528@gmail.com" title="Email">Email</a>
   </nav>
-  {{- end }}
 
   {{ partial "ask-ai.html" . }}
 </section>

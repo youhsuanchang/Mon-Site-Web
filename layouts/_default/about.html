@@ -1,7 +1,7 @@
 {{ define "main" }}
 
 <div class="about-container">
-  <!-- 第一屏：進來看到的滿版置中區塊 -->
+  <!-- Screen 1: Full-height centered hero section -->
   <section class="about-screen-hero">
     <h1 class="about-hero-title">About Me</h1>
     <div class="about-hero-photo-wrap">
@@ -13,18 +13,21 @@
     </p>
   </section>
 
-  <!-- 第二屏：往下滑看到的錯位雙欄內容 -->
+  <!-- Screen 2: Asymmetric two-column content grid -->
   <section class="about-screen-content">
-    <!-- 左欄：研究方向 + Toolkit -->
+    
+    <!-- Left Column -->
     <div class="about-col-left">
-      <div class="about-block">
+      <!-- Section 1: Research Focus (Standalone reveal) -->
+      <div class="about-block reveal-on-scroll">
         <h3 class="about-subtitle">Research & Technical Focus</h3>
         <p class="about-desc">
           My focus centers on the responsible integration of artificial intelligence within mental health care. I explore how computational tools can broaden support while remaining safe and transparent. Beyond technical design, I am interested in practical governance frameworks and promoting AI literacy.
         </p>
       </div>
 
-      <div class="about-block toolkit-block">
+      <!-- Section 2: Toolkit (Standalone reveal, triggers independently on scroll) -->
+      <div class="about-block toolkit-block reveal-on-scroll">
         <h3 class="about-subtitle">Toolkit:</h3>
         <ul class="about-toolkit-list">
           <li><span>- Analysis:</span> Python, Pandas, NumPy</li>
@@ -36,9 +39,10 @@
       </div>
     </div>
 
-    <!-- 右欄：往下錯位的創作實踐 -->
+    <!-- Right Column -->
     <div class="about-col-right">
-      <div class="about-block creative-block">
+      <!-- Section 3: Creative Practice (Standalone reveal) -->
+      <div class="about-block creative-block reveal-on-scroll">
         <h3 class="about-subtitle">Beyond the Data: Creative Practice & Sensory Balance</h3>
         <p class="about-desc">
           Alongside computational work, my time is rooted in art, working across painting, ceramics, and photography.
@@ -48,7 +52,39 @@
         </p>
       </div>
     </div>
+
   </section>
 </div>
+
+<!-- Continuous Bidirectional Scroll Trigger Script -->
+<script>
+/**
+ * Synchronous Scroll Trigger with Viewport Offset
+ * Ensures top sections do not reveal prematurely before user scrolls.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const observerOptions = {
+    root: null,
+    // Negative bottom margin ensures element must be scrolled into view
+    rootMargin: "0px 0px -60px 0px",
+    threshold: 0.15
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+      } else {
+        entry.target.classList.remove("is-visible");
+      }
+    });
+  }, observerOptions);
+
+  // Observe all content blocks
+  document.querySelectorAll(".reveal-on-scroll").forEach(el => {
+    observer.observe(el);
+  });
+});
+</script>
 
 {{ end }}
