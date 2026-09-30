@@ -32,7 +32,7 @@
     
     <!-- Left Column: Research Focus + Toolkit -->
     <div class="about-col-left">
-      <!-- Block 1: Research Focus (Standalone bidirectional reveal) -->
+      <!-- Block 1: Research Focus (Standalone reveal) -->
       <div class="about-block reveal-on-scroll">
         <h3 class="about-subtitle">Research & Technical Focus</h3>
         <p class="about-desc">
@@ -40,7 +40,7 @@
         </p>
       </div>
 
-      <!-- Block 2: Toolkit (Standalone bidirectional reveal, equal speed) -->
+      <!-- Block 2: Toolkit (Standalone reveal, equal speed) -->
       <div class="about-block toolkit-block reveal-on-scroll">
         <h3 class="about-subtitle">Toolkit:</h3>
         <ul class="about-toolkit-list">
@@ -55,7 +55,7 @@
 
     <!-- Right Column: Creative Practice -->
     <div class="about-col-right">
-      <!-- Block 3: Creative Practice (Standalone bidirectional reveal, equal speed) -->
+      <!-- Block 3: Creative Practice (Standalone reveal, equal speed) -->
       <div class="about-block creative-block reveal-on-scroll">
         <h3 class="about-subtitle">Beyond the Data: Creative Practice & Sensory Balance</h3>
         <p class="about-desc">
@@ -74,18 +74,17 @@
 <script>
 /**
  * Master Controller:
- * 1. Butterfly: Flapping wings, monochrome star trail, graceful completion.
- * 2. Text Content: Reverted to synchronous bidirectional scroll animation (fade-in & fade-out on repeat).
+ * 1. Butterfly: Runs exactly once per page load. Self-terminates after completing full trajectory.
+ * 2. Text Blocks: Synchronous bidirectional scroll reveal (0.7s, repeatable on scroll).
  */
 document.addEventListener("DOMContentLoaded", () => {
   /* --------------------------------------------------------------------------
-     1. Butterfly Wing Flapping Cycle (1 -> 2 -> 3 -> 4 -> 3 -> 2)
+     1. Butterfly Wing Flapping Cycle
      -------------------------------------------------------------------------- */
   const butterflyImg = document.getElementById("butterflyFrame");
   const butterflyMover = document.getElementById("butterflyMover");
   const butterflyGuide = document.getElementById("butterflySGuide");
   const trailLayer = document.getElementById("sparkleTrailLayer");
-  const screen2 = document.querySelector(".about-screen-content");
 
   const frames = [
     "/images/butterfly-1.png",
@@ -102,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   let currentFrame = 0;
-  setInterval(() => {
+  const flapInterval = setInterval(() => {
     currentFrame = (currentFrame + 1) % frames.length;
     if (butterflyImg) {
       butterflyImg.src = frames[currentFrame];
@@ -114,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
      -------------------------------------------------------------------------- */
   const starChars = ["✦", "✧", "⋆", "•"];
 
-  setInterval(() => {
+  const sparkleInterval = setInterval(() => {
     if (!butterflyMover || !trailLayer || !butterflyGuide) return;
     if (butterflyGuide.classList.contains("is-dismissed")) return;
 
@@ -135,35 +134,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 180);
 
   /* --------------------------------------------------------------------------
-     3. Butterfly Viewport Dismissal Observer
+     3. Play Once & Self-Terminate (Only replays if user leaves page and returns)
      -------------------------------------------------------------------------- */
-  if (screen2 && butterflyGuide) {
-    const scrollObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          butterflyGuide.classList.add("is-dismissed");
-        } else {
-          butterflyGuide.classList.remove("is-dismissed");
-        }
-      });
-    }, {
-      root: null,
-      threshold: 0.1
-    });
+  if (butterflyMover) {
+    butterflyMover.addEventListener("animationend", () => {
+      // Clear timers to prevent running in background
+      clearInterval(flapInterval);
+      clearInterval(sparkleInterval);
 
-    scrollObserver.observe(screen2);
+      // Hide guide container so it will not trigger again while on this page
+      if (butterflyGuide) {
+        butterflyGuide.style.display = "none";
+      }
+    });
   }
 
   /* --------------------------------------------------------------------------
-     4. Restored: Reversible Synchronous Scroll Animation for Text Blocks
+     4. Synchronous Bidirectional Scroll Animation for Text Blocks
      -------------------------------------------------------------------------- */
   const contentObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Scrolled into view: smoothly glide up & reveal
         entry.target.classList.add("is-visible");
       } else {
-        // Scrolled out of view: smoothly glide down & fade out (repeatable)
         entry.target.classList.remove("is-visible");
       }
     });

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Ink Theme — Customized Portfolio & Blog Stylesheet
+   Ink Theme — Master Clean Stylesheet
    ========================================================================== */
 
 /* --- Fonts -------------------------------------------------------------- */
@@ -115,7 +115,6 @@ main {
     padding: 2.5rem 0 2rem;
 }
 
-/* Allow wider width for custom multi-column layouts */
 .wrapper, 
 main, 
 .content, 
@@ -135,32 +134,7 @@ a:hover {
     text-decoration: underline;
 }
 
-:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-    border-radius: 2px;
-}
-
-/* --- Base Typography ---------------------------------------------------- */
-h1, h2, h3, h4 {
-    font-family: "Libre Baskerville", Georgia, serif;
-    font-weight: 700;
-    line-height: 1.3;
-    color: var(--text);
-    letter-spacing: -0.01em;
-}
-
-p {
-    margin-bottom: 1.25rem;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 2rem 0;
-}
-
-/* --- Header ------------------------------------------------------------- */
+/* --- Header & Static Logo ----------------------------------------------- */
 .header {
     position: sticky;
     top: 0;
@@ -185,12 +159,28 @@ hr {
     justify-content: space-between;
 }
 
-.site-title {
-    font-family: "Libre Baskerville", Georgia, serif;
+/* Static site title: No hover animation, no color change */
+.site-title,
+.site-title:hover,
+.site-title:focus,
+.site-title:visited,
+.site-title:active {
+    font-family: "Libre Baskerville", Georgia, serif !important;
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--text);
-    text-decoration: none;
+    color: var(--text) !important;
+    text-decoration: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+.site-title::before,
+.site-title::after {
+    display: none !important;
+    content: none !important;
 }
 
 .header-nav {
@@ -232,6 +222,14 @@ hr {
 
 [data-theme="dark"] .icon-moon { display: none; }
 [data-theme="light"] .icon-sun { display: none; }
+
+/* --- Unbold Post Titles (Site-wide) ------------------------------------- */
+.post-entry-title,
+.post-card-title,
+.post-single-title,
+.post-title {
+    font-weight: 400 !important;
+}
 
 /* --- Homepage Hero & Recent Posts --------------------------------------- */
 .hero {
@@ -298,8 +296,362 @@ hr {
     border-color: var(--link);
 }
 
+.recent-posts {
+    padding-bottom: 2rem;
+}
+
+.recent-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.recent-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.view-all {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.view-all:hover {
+    color: var(--link);
+    text-decoration: none;
+}
+
+ul.post-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 1.5rem 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+li.post-entry {
+    list-style: none !important;
+    list-style-type: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.post-card {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.85rem;
+    padding: 0.6rem 0;
+    background: transparent;
+    border: none !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    box-sizing: border-box;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.post-card:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
+.card-cover-wrap {
+    flex: 0 0 230px;
+    width: 230px;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--code-bg);
+}
+
+.card-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.post-entry-title {
+    margin: 0 0 0.35rem 0;
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: 1.45rem;
+    line-height: 1.3;
+    color: var(--text) !important;
+    letter-spacing: -0.015em;
+}
+
+.post-entry-meta {
+    margin: 0 0 0.45rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text-secondary) !important;
+    line-height: 1.4;
+}
+
+.post-entry-summary {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--text-secondary) !important;
+}
+
 /* ==========================================================================
-   Single Post Layout: Centered Title, Hero Cover, and Below-Photo Meta
+   About Me Page: Two-Screen Asymmetric Layout
+   ========================================================================== */
+
+.about-container {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+/* Screen 1: Full-height centered hero section */
+.about-screen-hero {
+    min-height: calc(88vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1rem 4rem 1rem;
+    position: relative;
+    overflow: visible;
+}
+
+.about-hero-title {
+    font-family: "Libre Baskerville", Georgia, serif !important;
+    font-size: 3.5rem;
+    font-weight: 400 !important; /* Regular font weight */
+    color: var(--text) !important;
+    margin: 0 0 2.8rem 0;
+    letter-spacing: -0.01em;
+}
+
+.about-hero-photo-wrap {
+    width: 250px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: var(--border);
+    margin-bottom: 1.25rem;
+    border-radius: 4px;
+}
+
+.about-hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.about-hero-caption {
+    font-family: inherit;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--text-secondary) !important;
+    margin: 0;
+}
+
+/* Screen 2: Asymmetric two-column content grid */
+.about-screen-content {
+    display: grid !important;
+    grid-template-columns: 1.2fr 1.2fr !important;
+    column-gap: 6rem !important;
+    padding: 4rem 1rem 10rem 1rem !important;
+    align-items: start !important;
+}
+
+.about-col-left {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.toolkit-block {
+    margin-top: 10rem !important;
+}
+
+.about-col-right {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.creative-block {
+    margin-top: 9rem !important;
+}
+
+.about-subtitle {
+    font-family: "Libre Baskerville", Georgia, serif !important;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text) !important;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.01em;
+}
+
+.about-desc {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--text-secondary) !important;
+    margin: 0 0 1rem 0;
+}
+
+.about-toolkit-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0.5rem 0 0 0 !important;
+}
+
+.about-toolkit-list li {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--text-secondary) !important;
+}
+
+.about-toolkit-list li span {
+    color: var(--text) !important;
+    font-weight: 600;
+}
+
+/* Butterfly Guide Animation */
+.butterfly-s-guide {
+    position: absolute;
+    top: calc(50% + 55px);
+    left: 50%;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 20;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.butterfly-s-guide.is-dismissed {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.butterfly-mover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 65px;
+    height: auto;
+    /* 改為 forwards：只跑 1 次，並停在 100% 透明度為 0 的淡出狀態 */
+    animation: butterflyCurvePath 6.2s linear forwards;
+    will-change: transform, opacity;
+}
+
+.butterfly-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+[data-theme="dark"] .butterfly-img,
+body.dark .butterfly-img {
+    filter: invert(1) brightness(1.2);
+}
+
+@keyframes butterflyCurvePath {
+    0% {
+        opacity: 0;
+        transform: translate(125px, -10px) rotate(8deg) scale(0.9);
+    }
+    6% {
+        opacity: 1;
+        transform: translate(145px, 25px) rotate(16deg) scale(1);
+    }
+    22% {
+        transform: translate(162px, 85px) rotate(12deg);
+    }
+    38% {
+        transform: translate(135px, 145px) rotate(-4deg);
+    }
+    54% {
+        transform: translate(70px, 205px) rotate(-16deg);
+    }
+    70% {
+        transform: translate(-15px, 260px) rotate(-24deg);
+    }
+    84% {
+        opacity: 1;
+        transform: translate(-110px, 310px) rotate(-22deg);
+    }
+    94% {
+        opacity: 0.9;
+        transform: translate(-170px, 345px) rotate(-18deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-190px, 355px) rotate(-15deg) scale(0.92);
+    }
+}
+
+.sparkle-trail-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 19;
+}
+
+.trail-sparkle {
+    position: absolute;
+    font-size: 0.82rem;
+    color: var(--text) !important;
+    pointer-events: none;
+    line-height: 1;
+    animation: starSparkleFade 1.1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes starSparkleFade {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+    }
+    30% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1.15) rotate(35deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -8px) scale(0.3) rotate(70deg);
+    }
+}
+
+/* ==========================================================================
+   Uniform Bidirectional Scroll Animation (0.7s)
+   ========================================================================== */
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   Single Post Layout & Original TOC Styling
    ========================================================================== */
 
 .post-single-container {
@@ -318,9 +670,8 @@ hr {
 .post-single-title {
     font-family: "Libre Baskerville", Georgia, serif !important;
     font-size: 2.85rem;
-    font-weight: 400 !important;
     color: var(--text) !important;
-    line-height: 1.22;
+    line-height: 1.25;
     letter-spacing: -0.015em;
     margin: 0 auto;
     max-width: 760px;
@@ -351,7 +702,7 @@ hr {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 0.85rem;
     color: var(--text-secondary) !important;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.2rem;
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -362,35 +713,59 @@ hr {
     opacity: 0.6;
 }
 
-.post-single-content {
-    font-size: 1.05rem;
-    line-height: 1.82;
+.toc {
+    background: var(--hover-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.toc summary {
+    cursor: pointer;
+    font-weight: 700;
     color: var(--text);
+    user-select: none;
 }
 
-.post-single-content h2 {
-    font-family: "Libre Baskerville", Georgia, serif !important;
-    font-size: 1.6rem;
-    margin-top: 2.8rem;
-    margin-bottom: 0.8rem;
+.toc summary::-webkit-details-marker {
+    margin-right: 0.5rem;
 }
 
-.post-single-content h3 {
-    font-family: "Libre Baskerville", Georgia, serif !important;
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 0.6rem;
+.toc nav {
+    margin-top: 0.75rem;
 }
 
-.post-single-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 6px;
-    margin: 1.5rem 0;
+.toc ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 0 !important;
+}
+
+.toc li {
+    margin: 0.35rem 0;
+}
+
+.toc li li {
+    padding-left: 1.25rem;
+}
+
+.toc a {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.toc a:hover {
+    color: var(--link);
+    text-decoration: none;
 }
 
 /* ==========================================================================
-   Posts List Page: 3-Column Card Grid & Filter Controls
+   Posts Page (/posts/): 3-Column Grid & Sort/Filter Controls
    ========================================================================== */
 
 .posts-page-container {
@@ -403,7 +778,6 @@ hr {
 .posts-page-title {
     font-family: "Libre Baskerville", Georgia, serif !important;
     font-size: 2.8rem;
-    font-weight: 400 !important;
     color: var(--text);
     margin-bottom: 2rem;
     letter-spacing: -0.015em;
@@ -535,15 +909,6 @@ hr {
     flex: 1;
 }
 
-.post-card-title {
-    font-family: inherit;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text);
-    margin: 0 0 0.4rem 0;
-    line-height: 1.35;
-}
-
 .post-card-meta {
     font-size: 0.78rem;
     color: var(--text-secondary);
@@ -568,245 +933,7 @@ hr {
     font-style: italic;
 }
 
-/* ==========================================================================
-   About Me: Two-Screen Asymmetric Layout
-   ========================================================================== */
-
-.about-container {
-    width: 100%;
-    max-width: 1040px;
-    margin: 0 auto;
-}
-
-/* Screen 1: Full-height centered hero section */
-.about-screen-hero {
-    min-height: calc(88vh - 70px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem 1rem 4rem 1rem;
-    position: relative;
-    overflow: visible;
-}
-
-.about-hero-title {
-    font-family: "Libre Baskerville", Georgia, serif !important;
-    font-size: 3.5rem;
-    font-weight: 400 !important; /* Regular Weight */
-    color: var(--text) !important;
-    margin: 0 0 2.8rem 0;
-    letter-spacing: -0.01em;
-}
-
-.about-hero-photo-wrap {
-    width: 250px;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background-color: var(--border);
-    margin-bottom: 1.25rem;
-    border-radius: 4px;
-}
-
-.about-hero-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.about-hero-caption {
-    font-family: inherit;
-    font-size: 0.82rem;
-    line-height: 1.55;
-    color: var(--text-secondary) !important;
-    margin: 0;
-}
-
-/* Screen 2: Asymmetric two-column content grid */
-.about-screen-content {
-    display: grid;
-    grid-template-columns: 1.2fr 1.2fr;
-    column-gap: 6rem;
-    padding: 4rem 1rem 10rem 1rem;
-    align-items: start;
-}
-
-.about-col-left {
-    display: flex;
-    flex-direction: column;
-}
-
-.toolkit-block {
-    margin-top: 10rem;
-}
-
-.about-col-right {
-    display: flex;
-    flex-direction: column;
-}
-
-.creative-block {
-    margin-top: 9rem;
-}
-
-.about-subtitle {
-    font-family: "Libre Baskerville", Georgia, serif !important;
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--text) !important;
-    margin: 0 0 0.75rem 0;
-    letter-spacing: -0.01em;
-}
-
-.about-desc {
-    font-size: 0.92rem;
-    line-height: 1.7;
-    color: var(--text-secondary) !important;
-    margin: 0 0 1rem 0;
-}
-
-.about-toolkit-list {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0.5rem 0 0 0 !important;
-}
-
-.about-toolkit-list li {
-    font-size: 0.85rem;
-    line-height: 1.75;
-    color: var(--text-secondary) !important;
-}
-
-.about-toolkit-list li span {
-    color: var(--text) !important;
-    font-weight: 600;
-}
-
-/* ==========================================================================
-   Single-Run Butterfly Guide & Sparkle Trail
-   ========================================================================== */
-
-.butterfly-s-guide {
-    position: absolute;
-    top: calc(50% + 55px);
-    left: 50%;
-    width: 1px;
-    height: 1px;
-    pointer-events: none;
-    z-index: 20;
-}
-
-.butterfly-mover {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 65px;
-    height: auto;
-    animation: butterflyCurvePath 6.2s linear forwards;
-    will-change: transform, opacity;
-}
-
-.butterfly-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-[data-theme="dark"] .butterfly-img,
-body.dark .butterfly-img {
-    filter: invert(1) brightness(1.2);
-}
-
-@keyframes butterflyCurvePath {
-    0% {
-        opacity: 0;
-        transform: translate(125px, -10px) rotate(8deg) scale(0.9);
-    }
-    6% {
-        opacity: 1;
-        transform: translate(145px, 25px) rotate(16deg) scale(1);
-    }
-    22% {
-        transform: translate(162px, 85px) rotate(12deg);
-    }
-    38% {
-        transform: translate(135px, 145px) rotate(-4deg);
-    }
-    54% {
-        transform: translate(70px, 205px) rotate(-16deg);
-    }
-    70% {
-        transform: translate(-15px, 260px) rotate(-24deg);
-    }
-    84% {
-        opacity: 1;
-        transform: translate(-110px, 310px) rotate(-22deg);
-    }
-    94% {
-        opacity: 0.9;
-        transform: translate(-170px, 345px) rotate(-18deg);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-190px, 355px) rotate(-15deg) scale(0.92);
-    }
-}
-
-.sparkle-trail-layer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 19;
-}
-
-.trail-sparkle {
-    position: absolute;
-    font-size: 0.82rem;
-    color: var(--text) !important;
-    pointer-events: none;
-    line-height: 1;
-    animation: starSparkleFade 1.1s forwards cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-@keyframes starSparkleFade {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
-    }
-    30% {
-        opacity: 0.85;
-        transform: translate(-50%, -50%) scale(1.15) rotate(35deg);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -8px) scale(0.3) rotate(70deg);
-    }
-}
-
-/* ==========================================================================
-   Scroll Reveal Animation
-   ========================================================================== */
-
-.reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: opacity, transform;
-}
-
-.reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-}
-
-/* --- Components: Tags, Code, Blockquotes, TOC, Footer -------------------- */
+/* --- Components: Tags, Code, Blockquotes, Footer ------------------------- */
 .post-tags {
     display: flex;
     flex-wrap: wrap;
@@ -858,27 +985,6 @@ blockquote {
     margin-bottom: 1.25rem;
 }
 
-.toc {
-    background: var(--hover-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    margin-bottom: 2rem;
-    font-size: 0.9rem;
-}
-
-.toc summary {
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--text);
-}
-
-.toc ul {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 0.5rem;
-}
-
 .footer {
     border-top: 1px solid var(--border);
     padding: 1.5rem 0;
@@ -895,15 +1001,15 @@ blockquote {
     }
 
     .about-screen-content {
-        grid-template-columns: 1fr;
-        column-gap: 0;
-        row-gap: 3rem;
-        padding: 2rem 1rem 5rem 1rem;
+        grid-template-columns: 1fr !important;
+        column-gap: 0 !important;
+        row-gap: 3rem !important;
+        padding: 2rem 1rem 5rem 1rem !important;
     }
 
     .toolkit-block,
     .creative-block {
-        margin-top: 0;
+        margin-top: 0 !important;
     }
 }
 
