@@ -804,6 +804,7 @@ body.dark .butterfly-img {
     opacity: 1;
     transform: translateY(0);
 }
+}
 
 /* --- Components: Tags, Code, Blockquotes, TOC, Footer -------------------- */
 .post-tags {
