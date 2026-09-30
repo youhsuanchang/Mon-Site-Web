@@ -1,46 +1,143 @@
-{{ define "main" }} {{- if not .IsHome }}
-      
+{{ define "main" }}
+<div class="posts-page-container">
+  <!-- Page Title (e.g. "Posts" or "# AI") -->
+  <h1 class="posts-page-title">
+    {{ if eq .Data.Singular "tag" }}# {{ .Title }}{{ else }}{{ .Title | default "Posts" }}{{ end }}
+  </h1>
 
-<h1 class="page-title">{{ .Title }}</h1>
-{{- end }}
+  <!-- Filter & Sort Control Bar -->
+  <div class="posts-control-bar">
+    <div class="control-dropdowns">
+      <!-- 1. Sort Order Selector (Visible on both Posts and Tag pages) -->
+      <div class="custom-select-wrap">
+        <select id="sortOrder" aria-label="Order by date">
+          <option value="desc">Order: Newest First ▼</option>
+          <option value="asc">Order: Oldest First ▲</option>
+        </select>
+      </div>
 
-<ul class="post-list">
-    {{- range .Paginator.Pages }}
-    <li class="post-entry">
-        <a href="{{ .Permalink }}" class="post-entry-link">
-
-            {{ with .Params.cover }}
-            <div class="entry-cover">
-                <a href="{{ $.RelPermalink }}">
-                    <img src="{{ . | absURL }}" alt="{{ $.Title }}" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 15px; object-fit: cover;">
-                </a>
-            </div>
+      <!-- 2. Tag Filter Selector (Only rendered on main posts list, omitted on tag pages) -->
+      {{ if ne .Data.Singular "tag" }}
+        {{ $allTags := slice }}
+        {{ range .RegularPages }}
+          {{ with .Params.tags }}
+            {{ range . }}
+              {{ $allTags = $allTags | append . }}
             {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ $uniqueTags := $allTags | uniq }}
 
-            <h2 class="post-entry-title">{{ .Title }}</h2>
-            {{ partial "post_meta.html" . }} {{- with .Description | default
-            .Summary }}
-            <p class="post-entry-summary">{{ . | plainify | truncate 160 }}</p>
-            {{- end }}
-        </a>
-    </li>
-    {{- end }}
-</ul>
+        <div class="custom-select-wrap">
+          <select id="tagFilter" aria-label="Filter by tag">
+            <option value="all">Tags: All ▼</option>
+            {{ range $uniqueTags }}
+            <option value="{{ . | lower }}">{{ . }}</option>
+            {{ end }}
+          </select>
+        </div>
+      {{ end }}
+    </div>
 
-{{- $pag := .Paginator }} {{- if gt $pag.TotalPages 1 }}
-<nav class="pagination">
-    {{- if $pag.HasPrev }}
-    <a href="{{ $pag.Prev.URL }}">{{ i18n "prev" | default "← Prev" }}</a>
-    {{- else }}
-    <span class="disabled">{{ i18n "prev" | default "← Prev" }}</span>
-    {{- end }}
+  
 
-    <span>{{ $pag.PageNumber }} / {{ $pag.TotalPages }}</span>
+  <!-- 3-Column Posts Grid -->
+  <div class="posts-grid" id="postsGrid">
+    {{ range .RegularPages }}
+    <article class="post-grid-card" 
+             data-date="{{ .Date.Unix }}" 
+             data-tags="{{ with .Params.tags }}{{ delimit . "," | lower }}{{ end }}">
+      <a href="{{ .RelPermalink }}" class="post-card-inner">
+        <!-- Thumbnail Cover -->
+        <div class="post-card-thumb">
+          {{ with .Params.cover }}
+          <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="lazy">
+          {{ else with .Params.image }}
+          <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="lazy">
+          {{ else }}
+          <div class="post-thumb-placeholder"></div>
+          {{ end }}
+        </div>
 
-    {{- if $pag.HasNext }}
-    <a href="{{ $pag.Next.URL }}">{{ i18n "next" | default "Next →" }}</a>
-    {{- else }}
-    <span class="disabled">{{ i18n "next" | default "Next →" }}</span>
-    {{- end }}
-</nav>
-{{- end }} {{ end }}
+        <!-- Card Content -->
+        <div class="post-card-body">
+          <h2 class="post-card-title">{{ .Title }}</h2>
+          <div class="post-card-meta">
+            <time>{{ .Date.Format "February 15, 2006" }}</time>
+            <span class="meta-dot">·</span>
+            <span>{{ .ReadingTime }} min read</span>
+          </div>
+          <p class="post-card-summary">
+            {{ .Description | default .Summary | plainify | truncate 90 }}
+          </p>
+        </div>
+      </a>
+    </article>
+    {{ end }}
+  </div>
+
+  <!-- Empty state message -->
+  <p id="noPostsMessage" class="no-posts-alert" style="display: none;">
+    Aucun article ne correspond à ce filtre.
+  </p>
+</div>
+
+<!-- Adaptive Sorting and Filtering Script -->
+<script>
+/**
+ * Client-Side Sorting and Tag Filtering
+ * Handles scenarios where tagFilter dropdown is omitted on taxonomy/tag pages.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+  const sortSelect = document.getElementById("sortOrder");
+  const tagSelect = document.getElementById("tagFilter");
+  const grid = document.getElementById("postsGrid");
+  const noPostsMsg = document.getElementById("noPostsMessage");
+  
+  if (!grid || !sortSelect) return;
+
+  const cards = Array.from(grid.querySelectorAll(".post-grid-card"));
+
+  function filterAndSortPosts() {
+    const selectedSort = sortSelect.value;
+    // Fall back to "all" if tagFilter does not exist on this page
+    const selectedTag = tagSelect ? tagSelect.value.toLowerCase() : "all";
+    let visibleCount = 0;
+
+    // 1. Sort posts by Unix timestamp
+    cards.sort((a, b) => {
+      const dateA = parseInt(a.dataset.date, 10);
+      const dateB = parseInt(b.dataset.date, 10);
+      return selectedSort === "asc" ? dateA - dateB : dateB - dateA;
+    });
+
+    // 2. Filter by tag (if applicable) and update visibility
+    cards.forEach(card => {
+      const rawTags = card.dataset.tags || "";
+      const cardTags = rawTags.split(",").map(t => t.trim());
+      const matchesTag = selectedTag === "all" || cardTags.includes(selectedTag);
+
+      if (matchesTag) {
+        card.style.display = "";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
+
+      // Re-append card in sorted order
+      grid.appendChild(card);
+    });
+
+    // 3. Toggle empty state indicator
+    if (noPostsMsg) {
+      noPostsMsg.style.display = visibleCount === 0 ? "block" : "none";
+    }
+  }
+
+  sortSelect.addEventListener("change", filterAndSortPosts);
+  if (tagSelect) {
+    tagSelect.addEventListener("change", filterAndSortPosts);
+  }
+});
+</script>
+{{ end }}
