@@ -4,21 +4,35 @@
   <!-- Screen 1: Full-height centered hero section -->
   <section class="about-screen-hero">
     <h1 class="about-hero-title">About Me</h1>
+    
+    <!-- Hero portrait photo wrapper -->
     <div class="about-hero-photo-wrap">
       <img src="/images/avatar.jpg" alt="You Hsuan Chang" class="about-hero-photo" />
     </div>
+
     <p class="about-hero-caption">
       I'm You Hsuan (右宣) you can call me Abi.<br>
       Based in Taiwan, now located in Paris.
     </p>
+
+    <!-- One-Time Curved Guide Butterfly & Particle Layer -->
+    <div class="butterfly-s-guide" id="butterflySGuide" aria-hidden="true">
+      <!-- Container for dynamically spawned stars -->
+      <div class="sparkle-trail-layer" id="sparkleTrailLayer"></div>
+      
+      <!-- Butterfly moving once along the guide trajectory -->
+      <div class="butterfly-mover" id="butterflyMover">
+        <img id="butterflyFrame" src="/images/butterfly-1.png" alt="ASCII Butterfly" class="butterfly-img" />
+      </div>
+    </div>
   </section>
 
   <!-- Screen 2: Asymmetric two-column content grid -->
   <section class="about-screen-content">
     
-    <!-- Left Column -->
+    <!-- Left Column: Research Focus + Toolkit -->
     <div class="about-col-left">
-      <!-- Section 1: Research Focus (Standalone reveal) -->
+      <!-- Block 1: Research Focus (Target destination of the butterfly) -->
       <div class="about-block reveal-on-scroll">
         <h3 class="about-subtitle">Research & Technical Focus</h3>
         <p class="about-desc">
@@ -26,7 +40,7 @@
         </p>
       </div>
 
-      <!-- Section 2: Toolkit (Standalone reveal, triggers independently on scroll) -->
+      <!-- Block 2: Toolkit (Standalone reveal, triggers once) -->
       <div class="about-block toolkit-block reveal-on-scroll">
         <h3 class="about-subtitle">Toolkit:</h3>
         <ul class="about-toolkit-list">
@@ -39,9 +53,9 @@
       </div>
     </div>
 
-    <!-- Right Column -->
+    <!-- Right Column: Creative Practice -->
     <div class="about-col-right">
-      <!-- Section 3: Creative Practice (Standalone reveal) -->
+      <!-- Block 3: Creative Practice (Standalone reveal, triggers once) -->
       <div class="about-block creative-block reveal-on-scroll">
         <h3 class="about-subtitle">Beyond the Data: Creative Practice & Sensory Balance</h3>
         <p class="about-desc">
@@ -56,33 +70,105 @@
   </section>
 </div>
 
-<!-- Continuous Bidirectional Scroll Trigger Script -->
+<!-- Interaction & Animation Controller (Plays once per visit) -->
 <script>
 /**
- * Synchronous Scroll Trigger with Viewport Offset
- * Ensures top sections do not reveal prematurely before user scrolls.
+ * Single-Run Animation Controller:
+ * 1. Butterfly and stars play exactly once per visit and self-terminate.
+ * 2. Content blocks slide up on first scroll and stay visible permanently.
+ * 3. Leaving the page and returning resets and replays smoothly.
  */
 document.addEventListener("DOMContentLoaded", () => {
-  const observerOptions = {
-    root: null,
-    // Negative bottom margin ensures element must be scrolled into view
-    rootMargin: "0px 0px -60px 0px",
-    threshold: 0.15
-  };
+  /* --------------------------------------------------------------------------
+     1. Wing Flapping Animation (1 -> 2 -> 3 -> 4 -> 3 -> 2)
+     -------------------------------------------------------------------------- */
+  const butterflyImg = document.getElementById("butterflyFrame");
+  const butterflyMover = document.getElementById("butterflyMover");
+  const butterflyGuide = document.getElementById("butterflySGuide");
+  const trailLayer = document.getElementById("sparkleTrailLayer");
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-      } else {
-        entry.target.classList.remove("is-visible");
+  const frames = [
+    "/images/butterfly-1.png",
+    "/images/butterfly-2.png",
+    "/images/butterfly-3.png",
+    "/images/butterfly-4.png",
+    "/images/butterfly-3.png",
+    "/images/butterfly-2.png"
+  ];
+
+  frames.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  let currentFrame = 0;
+  const flapInterval = setInterval(() => {
+    currentFrame = (currentFrame + 1) % frames.length;
+    if (butterflyImg) {
+      butterflyImg.src = frames[currentFrame];
+    }
+  }, 125);
+
+  /* --------------------------------------------------------------------------
+     2. Ink-Matched Star Particle Spawner (Runs only during flight)
+     -------------------------------------------------------------------------- */
+  const starChars = ["✦", "✧", "⋆", "•"];
+
+  const sparkleInterval = setInterval(() => {
+    if (!butterflyMover || !trailLayer) return;
+
+    const rect = butterflyMover.getBoundingClientRect();
+    if (rect.top <= 0 || rect.bottom >= window.innerHeight) return;
+
+    const star = document.createElement("span");
+    star.className = "trail-sparkle";
+    star.textContent = starChars[Math.floor(Math.random() * starChars.length)];
+    star.style.left = `${rect.left + rect.width / 2 + (Math.random() * 10 - 5)}px`;
+    star.style.top = `${rect.top + rect.height * 0.75 + (Math.random() * 6)}px`;
+
+    trailLayer.appendChild(star);
+
+    setTimeout(() => {
+      star.remove();
+    }, 1100);
+  }, 180);
+
+  /* --------------------------------------------------------------------------
+     3. Terminate Flight After Completing Path Once
+     -------------------------------------------------------------------------- */
+  if (butterflyMover) {
+    butterflyMover.addEventListener("animationend", () => {
+      // Clear timers to free memory
+      clearInterval(flapInterval);
+      clearInterval(sparkleInterval);
+
+      // Hide guide container completely so it won't repeat while browsing
+      if (butterflyGuide) {
+        butterflyGuide.style.display = "none";
       }
     });
-  }, observerOptions);
+  }
 
-  // Observe all content blocks
+  /* --------------------------------------------------------------------------
+     4. Content Blocks Scroll Reveal (Trigger Once Only)
+     -------------------------------------------------------------------------- */
+  const contentObserver = new IntersectionObserver((entries, observerInstance) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Fade in block smoothly
+        entry.target.classList.add("is-visible");
+        // Unobserve immediately so it permanently stays in place without re-triggering
+        observerInstance.unobserve(entry.target);
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: "0px 0px -50px 0px",
+    threshold: 0.12
+  });
+
   document.querySelectorAll(".reveal-on-scroll").forEach(el => {
-    observer.observe(el);
+    contentObserver.observe(el);
   });
 });
 </script>

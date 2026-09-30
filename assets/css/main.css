@@ -921,7 +921,141 @@ article {
     margin-top: 0; /* Reset vertical offset for stacked mobile layout */
   }
 }
-  
+ 
+/* ==========================================================================
+   Single-Run Butterfly Guide & Permanent Scroll Reveal
+   ========================================================================== */
+
+/* Hero container reference */
+.about-screen-hero {
+  position: relative;
+  overflow: visible;
+}
+
+/* Butterfly anchor positioned at the bottom-right of the avatar / caption */
+.butterfly-s-guide {
+  position: absolute;
+  top: calc(50% + 55px);
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Butterfly mover performing a single smooth glide across the screen */
+.butterfly-mover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65px;
+  height: auto;
+  /* Plays exactly 1 time, retains final hidden state with 'forwards' */
+  animation: butterflyCurvePath 6.2s linear forwards;
+  will-change: transform, opacity;
+}
+
+.butterfly-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Dark mode automatic inversion so ASCII lines turn crisp white */
+[data-theme="dark"] .butterfly-img,
+body.dark .butterfly-img {
+  filter: invert(1) brightness(1.2);
+}
+
+/* Single-run flight trajectory: arrives at target and dissolves into opacity 0 */
+@keyframes butterflyCurvePath {
+  0% {
+    opacity: 0;
+    transform: translate(125px, -10px) rotate(8deg) scale(0.9);
+  }
+  6% {
+    opacity: 1;
+    transform: translate(145px, 25px) rotate(16deg) scale(1);
+  }
+  22% {
+    transform: translate(162px, 85px) rotate(12deg);
+  }
+  38% {
+    transform: translate(135px, 145px) rotate(-4deg);
+  }
+  54% {
+    transform: translate(70px, 205px) rotate(-16deg);
+  }
+  70% {
+    transform: translate(-15px, 260px) rotate(-24deg);
+  }
+  84% {
+    opacity: 1;
+    transform: translate(-110px, 310px) rotate(-22deg);
+  }
+  94% {
+    opacity: 0.9;
+    transform: translate(-170px, 345px) rotate(-18deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-190px, 355px) rotate(-15deg) scale(0.92);
+  }
+}
+
+/* Star particles container */
+.sparkle-trail-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 19;
+}
+
+/* Star particle style matching text tone */
+.trail-sparkle {
+  position: absolute;
+  font-size: 0.82rem;
+  color: var(--text) !important;
+  pointer-events: none;
+  line-height: 1;
+  animation: starSparkleFade 1.1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes starSparkleFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+  }
+  30% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.15) rotate(35deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -8px) scale(0.3) rotate(70deg);
+  }
+}
+
+/* ==========================================================================
+   One-Time Scroll Reveal for Content Blocks
+   ========================================================================== */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Once revealed, remains permanently fixed in place */
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* --- Tags --------------------------------------------------------------- */
 .post-tags {
